@@ -1,46 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">    
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solaris</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animationer -->
     <script>
-    tailwind.config = {
-        theme: {
-            extend: {
-            keyframes: {
-                fadeIn: {
-                '0%': { opacity: 0, transform: 'scale(0.95)' },
-                '100%': { opacity: 1, transform: 'scale(1)' },
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: 0, transform: 'scale(0.95)' },
+                            '100%': { opacity: 1, transform: 'scale(1)' },
+                        }
+                    },
+                    animation: {
+                        fadeIn: 'fadeIn 0.3s ease-out'
+                    }
                 }
-            },
-            animation: {
-                fadeIn: 'fadeIn 0.3s ease-out'
-            }
             }
         }
-    }
     </script>
 </head>
 
 <body class="bg-black text-white font-sans">
 
-    <main class="max-w-6xl mx-auto p-6">
+    <main class="max-w-6xl mx-auto p-6 text-center">
+        <h1 class="text-4xl font-bold mb-8">Solaris</h1>
 
-        <h1 class="text-4xl font-bold mb-8 text-center">Solaris</h1>
-
-        <!-- Här visas planeterna -->
-        <div id="planet-container"
-             class="flex flex-wrap gap-6 justify-center">
-        </div>
-
+        <!-- Planeterna renderas här -->
+        <div id="planet-container" class="flex flex-wrap gap-6 justify-center"></div>
     </main>
 
     <!-- Overlay -->
-    <div id="overlay"
-         class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6">
-    </div>
+    <div id="overlay" class="hidden fixed inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center p-6 z-50"></div>
 
     <script src="script.js"></script>
 </body>
