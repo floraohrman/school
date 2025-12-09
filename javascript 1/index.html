@@ -28,18 +28,26 @@
     </script>
 </head>
 
-<body class="bg-black text-white font-sans">
+<body class="bg-gradient-to-br from-[#0B0D2A] via-[#0E103D] to-[#140B2D] text-white overflow-hidden">
 
-    <main class="max-w-6xl mx-auto p-6 text-center">
-        <h1 class="text-4xl font-bold mb-8">Solaris</h1>
+<!-- SOLAR SYSTEM VIEW -->
+<section id="solar-system" class="relative h-screen w-full flex items-center">
 
-        <!-- Planeterna renderas här -->
-        <div id="planet-container" class="flex flex-wrap gap-6 justify-center"></div>
-    </main>
+    <!-- SUN -->
+    <div class="absolute -left-72 w-[600px] h-[600px] rounded-full bg-yellow-400"></div>
 
-    <!-- Overlay -->
-    <div id="overlay" class="hidden fixed inset-0 bg-black/80 backdrop-blur-lg flex items-center justify-center p-6 z-50"></div>
+    <!-- PLANETS -->
+    <div id="planet-container"
+         class="relative flex items-center gap-16 ml-[400px]">
+    </div>
 
-    <script src="script.js"></script>
+</section>
+
+<!-- PLANET DETAIL VIEW -->
+<section id="planet-view"
+         class="hidden absolute inset-0 bg-gradient-to-br from-[#0B0D2A] to-[#140B2D] p-20">
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -57,20 +57,85 @@ function renderPlanets(bodies) {
     const container = document.querySelector("#planet-container");
     container.innerHTML = "";
 
+    const planetStyles = {
+        Merkurius: { size: 14, color: "#b1b1b1" },
+        Venus: { size: 32, color: "#e3c27c" },
+        Jorden: { size: 34, color: "#4b8fd8" },
+        Mars: { size: 26, color: "#c1440e" },
+        Jupiter: { size: 120, color: "#d2b48c" },
+        Saturnus: { size: 100, color: "#e6c27a", ring: true },
+        Uranus: { size: 56, color: "#9adbe8" },
+        Neptunus: { size: 56, color: "#3f54ba" }
+    };
+
     bodies.forEach(body => {
         if (body.type !== "planet") return;
 
-        const el = document.createElement("button");
-        el.className = `
-            w-32 h-32 rounded-full bg-gray-800 shadow-lg
-            flex items-center justify-center
-            text-lg font-semibold
-            hover:bg-gray-700 transition
-        `;
-        el.textContent = body.name;
-        el.addEventListener("click", () => showPlanetInfo(body));
+        const style = planetStyles[body.name];
+        if (!style) return;
 
-        container.appendChild(el);
+        const wrapper = document.createElement("div");
+        wrapper.className = "relative flex items-center justify-center";
+
+        const planet = document.createElement("div");
+        planet.className = `
+            rounded-full cursor-pointer
+            transition-transform duration-300
+            hover:scale-110
+        `;
+        planet.style.width = `${style.size}px`;
+        planet.style.height = `${style.size}px`;
+        planet.style.backgroundColor = style.color;
+
+
+        // Saturn rings
+        if (style.ring) {
+            const ringOuter = document.createElement("div");
+            ringOuter.className = "absolute rounded-full border-yellow-100 opacity-30";
+            ringOuter.style.width = `${style.size * 1.9}px`;
+            ringOuter.style.height = `${style.size * 0.35}px`;
+            ringOuter.style.borderWidth = "3px";
+            ringOuter.style.transform = "rotate(-20deg)";
+            ringOuter.style.pointerEvents = "none";
+
+            const ringMain = document.createElement("div");
+            ringMain.className = "absolute rounded-full border-yellow-120 opacity-50";
+            ringMain.style.width = `${style.size * 1.8}px`;
+            ringMain.style.height = `${style.size * 0.3}px`;
+            ringMain.style.borderWidth = "6px";
+            ringMain.style.transform = "rotate(-20deg)";
+            ringMain.style.pointerEvents = "none";
+
+            const ringInner = document.createElement("div");
+            ringInner.className = "absolute rounded-full border-yellow-200 opacity-70";
+            ringInner.style.width = `${style.size * 1.6}px`;
+            ringInner.style.height = `${style.size * 0.2}px`;
+            ringInner.style.borderWidth = "2px";
+            ringInner.style.transform = "rotate(-20deg)";
+            ringInner.style.pointerEvents = "none";
+
+            // Saturn top overlay (hides upper rings)
+            const saturnOverlay = document.createElement("div");
+            saturnOverlay.className = "absolute rounded-full";
+            saturnOverlay.style.width = `${style.size}px`;
+            saturnOverlay.style.height = `${style.size}px`;
+            saturnOverlay.style.backgroundColor = style.color;
+            saturnOverlay.style.clipPath = "inset(0 0 50% 0)";
+            saturnOverlay.style.transform = "rotate(-20deg)";
+            saturnOverlay.style.zIndex = "3";
+            saturnOverlay.style.pointerEvents = "none";
+
+            wrapper.appendChild(saturnOverlay);
+
+            wrapper.appendChild(ringOuter);
+            wrapper.appendChild(ringMain);
+            wrapper.appendChild(ringInner);
+        }
+
+        planet.addEventListener("click", () => showPlanetInfo(body));
+
+        wrapper.appendChild(planet);
+        container.appendChild(wrapper);
     });
 }
 
@@ -78,32 +143,78 @@ function renderPlanets(bodies) {
 //   Overlay med planetinfo
 // --------------------------------------------------
 function showPlanetInfo(body) {
-    const overlay = document.querySelector("#overlay");
+    const view = document.querySelector("#planet-view");
+    const solar = document.querySelector("#solar-system");
 
-    overlay.innerHTML = `
-        <div class="bg-gray-900 p-8 rounded-xl max-w-lg text-center space-y-4 animate-fadeIn">
-            <h2 class="text-3xl font-bold">${body.name}</h2>
-            <h3 class="text-lg text-gray-400 italic">${body.latinName}</h3>
-            <p class="text-gray-200">${body.desc}</p>
-            <ul class="text-left text-gray-300 space-y-1">
-                <li><strong>Dygn:</strong> ${body.rotation}</li>
-                <li><strong>Omkrets:</strong> ${body.circumference} km</li>
-                <li><strong>Avstånd:</strong> ${body.distance} km</li>
-                <li><strong>Temperatur:</strong> ${body.temp.day}°C / ${body.temp.night}°C</li>
-                <li><strong>Månar:</strong> ${body.moons.length}</li>
-            </ul>
-            <button id="close-overlay"
-                class="px-6 py-2 bg-white text-black font-bold rounded-md hover:bg-gray-200">
-                Stäng
-            </button>
+    solar.classList.add("hidden");
+    view.classList.remove("hidden");
+
+    view.innerHTML = `
+        <button id="back"
+            class="absolute top-10 left-10 text-gray-400 hover:text-white">
+            ← Tillbaka
+        </button>
+
+        <div class="flex h-full items-center gap-24">
+
+            <!-- Planet graphic -->
+            <div class="relative w-[400px] h-[400px] flex items-center justify-center">
+            ${body.name === "Saturnus" ? `
+                <div class="absolute w-[720px] h-[260px] rounded-full rotate-[-20deg]
+                    border-[3px] border-yellow-200 opacity-40">
+                </div>
+                <div class="absolute w-[660px] h-[230px] rounded-full rotate-[-20deg]
+                    border-[6px] border-yellow-100 opacity-25">
+                </div>
+                <div class="absolute w-[600px] h-[200px] rounded-full rotate-[-20deg]
+                    border-[2px] border-yellow-300 opacity-50">
+                </div>
+            ` : ""}
+                <div class="w-full h-full rounded-full"
+                    style="background:${getPlanetColor(body.name)}">
+                </div>
+            </div>
+
+            <!-- Text -->
+            <div class="max-w-xl space-y-6">
+                <h1 class="text-7xl font-bold tracking-widest uppercase">${body.name}</h1>
+                <p class="tracking-[0.4em] text-yellow-400 uppercase text-sm">
+                    ${body.latinName}
+                </p>
+
+                <p class="text-gray-300 leading-relaxed">
+                    ${body.desc}
+                </p>
+
+                <div class="grid grid-cols-2 gap-6 text-sm text-gray-300">
+                    <div><strong>Omkrets</strong><br>${body.circumference} km</div>
+                    <div><strong>Km från solen</strong><br>${body.distance}</div>
+                    <div><strong>Max temp</strong><br>${body.temp.day}°C</div>
+                    <div><strong>Min temp</strong><br>${body.temp.night}°C</div>
+                </div>
+            </div>
+
         </div>
     `;
 
-    overlay.classList.remove("hidden");
-    document.querySelector("#close-overlay")
-        .addEventListener("click", () => overlay.classList.add("hidden"));
+    document.querySelector("#back").addEventListener("click", () => {
+        view.classList.add("hidden");
+        solar.classList.remove("hidden");
+    });
 }
-
+function getPlanetColor(name) {
+    const colors = {
+        Merkurius: "#b1b1b1",
+        Venus: "#e3c27c",
+        Jorden: "#4b8fd8",
+        Mars: "#c1440e",
+        Jupiter: "#d2b48c",
+        Saturnus: "#e6c27a",
+        Uranus: "#9adbe8",
+        Neptunus: "#3f54ba"
+    };
+    return colors[name] || "#888";
+}
 // --------------------------------------------------
 //   Felmeddelande (VG)
 // --------------------------------------------------
