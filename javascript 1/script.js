@@ -88,7 +88,7 @@ function renderPlanets(bodies) {
         star.style.width = `${style.size}px`;
         star.style.height = `${style.size}px`;
         star.style.backgroundColor = style.color;
-        star.style.marginLeft = `-${style.size / 2 }px`;
+        star.style.marginLeft = `-${style.size / 1.5 }px`;
 
         star.addEventListener("click", () => showPlanetInfo(body));
 
