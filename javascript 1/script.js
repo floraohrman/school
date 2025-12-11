@@ -1,5 +1,5 @@
 // --------------------------------------------------
-//   Hämta API-nyckel dynamiskt (VG-krav)
+//   Fetching API-key dynamicly so its not to be hardcoded
 // --------------------------------------------------
 async function getApiKey() {
     const resp = await fetch(
@@ -15,7 +15,7 @@ async function getApiKey() {
 }
 
 // --------------------------------------------------
-//   Hämta planeter (Med text/plain hantering och VG-error)
+//   Fetching planets from API
 // --------------------------------------------------
 async function getBodies(apiKey) {
     const url = "https://4a6l0o1px9.execute-api.eu-north-1.amazonaws.com/bodies";
@@ -51,7 +51,7 @@ async function getBodies(apiKey) {
 }
 
 // --------------------------------------------------
-//   Rendera planeter
+//   Rendering Planets
 // --------------------------------------------------
 function renderPlanets(bodies) {
     const container = document.querySelector("#planet-container");
@@ -140,7 +140,7 @@ function renderPlanets(bodies) {
 }
 
 // --------------------------------------------------
-//   Overlay med planetinfo
+//   Overlay with planetinfo
 // --------------------------------------------------
 function showPlanetInfo(body) {
     const view = document.querySelector("#planet-view");
@@ -216,7 +216,7 @@ function getPlanetColor(name) {
     return colors[name] || "#888";
 }
 // --------------------------------------------------
-//   Felmeddelande (VG)
+//   Error handling and retry
 // --------------------------------------------------
 function showError(message) {
     const container = document.querySelector("#planet-container");
