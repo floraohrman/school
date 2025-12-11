@@ -58,6 +58,7 @@ function renderPlanets(bodies) {
     container.innerHTML = "";
 
     const planetStyles = {
+        Solen: { size: 1000, color: "#f9d71c" },
         Merkurius: { size: 14, color: "#b1b1b1" },
         Venus: { size: 32, color: "#e3c27c" },
         Jorden: { size: 34, color: "#4b8fd8" },
@@ -67,6 +68,33 @@ function renderPlanets(bodies) {
         Uranus: { size: 56, color: "#9adbe8" },
         Neptunus: { size: 56, color: "#3f54ba" }
     };
+
+        bodies.forEach(body => {
+        if (body.type !== "star") return;
+
+        const style = planetStyles[body.name];
+        if (!style) return;
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "relative flex justify-start";
+        wrapper.style.width = style.size / 2 + "px"; // Show half the sun
+
+        const star = document.createElement("div");
+        star.className = `
+            rounded-full cursor-pointer
+            transition-transform duration-300
+            hover:scale-110
+        `;
+        star.style.width = `${style.size}px`;
+        star.style.height = `${style.size}px`;
+        star.style.backgroundColor = style.color;
+        star.style.marginLeft = `-${style.size / 2 }px`;
+
+        star.addEventListener("click", () => showPlanetInfo(body));
+
+        wrapper.appendChild(star);
+        container.appendChild(wrapper);
+    });
 
     bodies.forEach(body => {
         if (body.type !== "planet") return;
@@ -204,6 +232,7 @@ function showPlanetInfo(body) {
 }
 function getPlanetColor(name) {
     const colors = {
+        Solen: "#f9d71c",
         Merkurius: "#b1b1b1",
         Venus: "#e3c27c",
         Jorden: "#4b8fd8",
@@ -251,5 +280,4 @@ async function init() {
         showError(err.message);
     }
 }
-
 document.addEventListener("DOMContentLoaded", init);
