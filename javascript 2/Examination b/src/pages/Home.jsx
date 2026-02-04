@@ -1,5 +1,12 @@
 import AnimatedText from "../components/AnimatedText";
 
+const heroStyle = {
+  fontSize: "3rem",
+  background: "linear-gradient(90deg,#ff4ecd,#7c3aed)",
+  WebkitBackgroundClip: "text",
+  color: "transparent",
+};
+
 function Home() {
   return (
     <>

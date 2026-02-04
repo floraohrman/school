@@ -1,49 +1,87 @@
+/* Root och färgvariabler */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --primary-color: #7c3aed; /* Lila accent */
+  --secondary-color: #ff4ecd; /* Rosa accent */
+  --text-color: #e5e7eb; /* Ljus text */
+  --background-dark: #0b0c1c; /* Djup mörk bakgrund */
+  --gradient-bg: radial-gradient(circle at top, #0f0f1b, #020204);
+  --glow-shadow: 0 0 8px var(--primary-color), 0 0 16px var(--secondary-color);
+  --font-main: "Segoe UI", sans-serif;
 }
+
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  font-family: "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #0f0f1b, #020204);
-  color: #e5e7eb;
+  font-family: var(--font-main);
+  background: var(--gradient-bg);
+  color: var(--text-color);
+  line-height: 1.5;
+  font-weight: 400;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Glow accent färger */
-:root {
-  --pink: #ff4ecd;
-  --purple: #7c3aed;
-}
-
+/* Huvudlayout */
 main {
   max-width: 1100px;
   margin: auto;
   padding: 2rem;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+/* Länkar och knappar */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+a:hover {
+  color: var(--secondary-color);
+  text-shadow: var(--glow-shadow);
+}
+
+button {
+  background-color: transparent;
+  color: var(--text-color);
+  border: 2px solid var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+button:hover {
+  background-color: var(--primary-color);
+  box-shadow: var(--glow-shadow);
+  color: #fff;
+}
+
+/* Rubriker med glöd */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-color);
+  text-shadow: 0 0 6px rgba(124, 58, 237, 0.7), 0 0 12px rgba(255, 78, 205, 0.5);
+}
+
+/* Kort och sektioner */
+.card {
+  background-color: rgba(30, 30, 50, 0.8);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(124, 58, 237, 0.5);
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(255, 78, 205, 0.6);
+}
+
+/* Responsivitet */
+@media (max-width: 768px) {
+  main {
+    padding: 1rem;
   }
 }

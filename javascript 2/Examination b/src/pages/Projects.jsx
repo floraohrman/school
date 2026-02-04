@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import ProjectCard from "../components/ProjectCard";
 
+const gridStyle = {
+  display: "grid",
+  gap: "1.5rem",
+};
+
 function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
