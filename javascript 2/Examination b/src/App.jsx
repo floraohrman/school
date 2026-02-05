@@ -6,14 +6,20 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <>
+    <div
+      style={{
+        maxWidth: "1100px",
+        margin: "0 auto",
+        padding: "2rem",
+      }}
+    >
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/about" element={<About />} />
       </Routes>
-    </>
+    </div>
   );
 }
 
